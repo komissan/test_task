@@ -1,5 +1,5 @@
 import time 
-time.sleep(5)
+time.sleep(5) ##костыль на случай когда докер запускает мейн до базы
 from fastapi import FastAPI
 import uvicorn
 import requests
@@ -9,7 +9,6 @@ from pydantic import BaseModel
 import sql
 from sql import SessionLocal
 import model
-import create_db
 
 db = SessionLocal()  
 
@@ -21,7 +20,7 @@ async def get_weather(city:str):
     response = requests.get("https://api.openweathermap.org/data/2.5/weather", params=params)
     data = json.loads(response.text)
     new_weather_report=model.Item()
-    if data['cod']==200:    
+    if data['cod']==200:    ##если ответ был
         new_weather_report.coord_lat=data['coord']['lat']
         new_weather_report.coord_long=data['coord']['lon'] 
         new_weather_report.weather_id=data['weather'][0]['id']
@@ -33,7 +32,7 @@ async def get_weather(city:str):
         new_weather_report.main_humidity= data['main']['humidity']
         new_weather_report.main_temp_min= data['main']['temp_min']
         new_weather_report.main_temp_max= data['main']['temp_max']
-        if 'sea_level' in data['main'].keys():
+        if 'sea_level' in data['main'].keys():                              ##openweather опускает куски ответов если они неприменимы i.e. дождя за последние 3 часа не было, поэтому нужна проверка
             new_weather_report.main_sea_level= data['main']['sea_level']
         if 'grnd_level' in data['main'].keys():
             new_weather_report.main_grnd_level= data['main']['grnd_level']
@@ -62,14 +61,14 @@ async def get_weather(city:str):
         new_weather_report.cod= data['cod']
         db.add(new_weather_report)
         db.commit()
-    else:
+    else:       ##если что-то пошло не так
         new_weather_report.sys_country= city
         new_weather_report.cod= data['cod']
         db.add(new_weather_report)
         db.commit()
         return ("Wrong city name or the service is unreachable", data['cod'])
 
-    return (data['name'], 
+    return (data['name'],       ##непонятно что нужно возвращать, а что нет, поэтому здесь только важное
     data['weather'][0]['main'],
     data['weather'][0]['description'],
     ["Temperature:", data['main']['temp']],

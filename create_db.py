@@ -1,6 +1,6 @@
-from sql import Base, engine
-from model import Item
+# from sql import Base, engine
+# from model import Item
 
-print('Creating')
+# print('Creating')
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
