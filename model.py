@@ -1,0 +1,36 @@
+from sql import Base
+from sqlalchemy import select, Table, Column, Integer, String, MetaData, ForeignKey, Boolean, Float
+
+class Item(Base):
+    __tablename__ = 'Weather_reports'
+    id=Column(Integer, primary_key=True, autoincrement=True, unique=True)
+    coord_lat=Column(Float,default=None)
+    coord_long=Column(Float,default=None)
+    weather_id=Column(Integer,default=None)
+    weather_main=Column(String(255),default=None)
+    weather_description=Column(String(255),default=None)
+    main_temp=Column(Float,default=None)
+    main_feels_like=Column(Float,default=None)
+    main_pressure=Column(Float,default=None)
+    main_humidity=Column(Float,default=None)
+    main_temp_min=Column(Float,default=None)
+    main_temp_max=Column(Float,default=None)
+    main_sea_level=Column(Float,default=None)
+    main_grnd_level=Column(Float,default=None)
+    visibility=Column(Float,default=None)
+    wind_speed=Column(Float,default=None)
+    wind_deg=Column(Float,default=None)
+    wind_gust=Column(Float,default=None)
+    cloud_all=Column(Float,default=None)
+    rain_1h=Column(Float,default=None)
+    rain_3h=Column(Float,default=None)
+    snow_1h=Column(Float,default=None)
+    snow_3h=Column(Float,default=None)
+    dt=Column(Integer,default=None)
+    sys_country=Column(String(255),default=None)
+    sys_sunrise=Column(Integer,default=None)
+    sys_sunset=Column(Integer,default=None)
+    timezone=Column(Integer,default=None)
+    cityname=Column(String(255),default=None)
+    cod=Column(Integer,default=None)
+    
